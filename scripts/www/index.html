@@ -1,11 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus</title>
-    </head>
-    <body>
-        PakePlus
-    </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随机字符串生成器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>随机字符串生成器</h1>
+        </header>
+        <main>
+            <div class="section">
+                <h3>选择段数：</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="segments" value="2"> 2段</label>
+                    <label><input type="checkbox" name="segments" value="3"> 3段</label>
+                    <label><input type="checkbox" name="segments" value="4"> 4段</label>
+                    <label><input type="checkbox" name="segments" value="5"> 5段</label>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>每段长度范围：</h3>
+                <input type="text" id="rangeInput" placeholder="例如：3-8" value="3-8">
+            </div>
+
+            <div class="section">
+                <div class="button-group">
+                    <button id="generateBtn">生成</button>
+                    <button id="copyBtn">复制</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>生成结果：</h3>
+                <textarea id="resultText" readonly></textarea>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
 </html>
