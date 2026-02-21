@@ -26,8 +26,44 @@ body {
 header h1 {
     color: #333;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-size: 24px;
+}
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 15px;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.tab:hover {
+    color: #667eea;
+}
+
+.tab.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+    font-weight: 600;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 .section {
@@ -127,4 +163,93 @@ button:active {
     resize: vertical;
     min-height: 80px;
     background: #f9f9f9;
+}
+
+.prefix-manager {
+    margin-bottom: 20px;
+}
+
+.prefix-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.prefix-input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.prefix-input-group button {
+    padding: 10px 20px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.prefix-input-group button:hover {
+    background: #5568d3;
+}
+
+.prefix-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.prefix-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f0f0f0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.prefix-item:hover {
+    background: #e0e0e0;
+}
+
+.prefix-item.selected {
+    background: #667eea;
+    color: white;
+}
+
+.prefix-item .delete-btn {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prefix-item.selected .delete-btn {
+    color: white;
+}
+
+.prefix-item .delete-btn:hover {
+    color: #ff4444;
+}
+
+.suffix-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
 }
