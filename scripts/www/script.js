@@ -1,5 +1,22 @@
 // 初始化应用
 document.addEventListener('DOMContentLoaded', function() {
+    // Tab 切换
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(tc => tc.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        });
+    });
+
+    // ===== 随机字符串生成器 =====
     const checkboxes = document.querySelectorAll('input[name="segments"]');
     const generateBtn = document.getElementById('generateBtn');
     const copyBtn = document.getElementById('copyBtn');
@@ -131,13 +148,204 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         resultText.select();
-        document.execCommand('copy');
+        navigator.clipboard.writeText(resultText.value).then(() => {
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '已复制！';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 1500);
+        }).catch(() => {
+            document.execCommand('copy');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '已复制！';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 1500);
+        });
+    }
+
+    // ===== 文件名生成器 =====
+    const prefixInput = document.getElementById('prefixInput');
+    const addPrefixBtn = document.getElementById('addPrefixBtn');
+    const prefixList = document.getElementById('prefixList');
+    const suffixInput = document.getElementById('suffixInput');
+    const counterInput = document.getElementById('counterInput');
+    const generateFilenameBtn = document.getElementById('generateFilenameBtn');
+    const copyFilenameBtn = document.getElementById('copyFilenameBtn');
+    const filenameResultText = document.getElementById('filenameResultText');
+
+    let prefixes = [];
+    let selectedPrefix = null;
+
+    // 加载文件名生成器配置
+    loadFilenameConfig();
+
+    // 添加前缀
+    addPrefixBtn.addEventListener('click', addPrefix);
+    prefixInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addPrefix();
+        }
+    });
+
+    // 后缀输入框失焦时保存
+    suffixInput.addEventListener('blur', saveFilenameConfig);
+    
+    // 序号输入框失焦时保存
+    counterInput.addEventListener('blur', function() {
+        const counter = parseInt(counterInput.value) || 0;
+        saveCounter(counter);
+    });
+
+    // 生成文件名
+    generateFilenameBtn.addEventListener('click', generateFilename);
+
+    // 复制文件名
+    copyFilenameBtn.addEventListener('click', copyFilename);
+
+    function addPrefix() {
+        const prefix = prefixInput.value.trim();
+        if (!prefix) {
+            alert('请输入前缀名称！');
+            return;
+        }
+
+        if (prefixes.includes(prefix)) {
+            alert('该前缀已存在！');
+            return;
+        }
+
+        prefixes.push(prefix);
+        prefixInput.value = '';
+        renderPrefixList();
+        saveFilenameConfig();
+    }
+
+    function deletePrefix(prefix) {
+        prefixes = prefixes.filter(p => p !== prefix);
+        if (selectedPrefix === prefix) {
+            selectedPrefix = null;
+        }
+        renderPrefixList();
+        saveFilenameConfig();
+    }
+
+    function selectPrefix(prefix) {
+        selectedPrefix = prefix;
+        renderPrefixList();
+        saveFilenameConfig();
+    }
+
+    function renderPrefixList() {
+        prefixList.innerHTML = '';
+        prefixes.forEach(prefix => {
+            const item = document.createElement('div');
+            item.className = 'prefix-item' + (prefix === selectedPrefix ? ' selected' : '');
+            
+            const text = document.createElement('span');
+            text.textContent = prefix;
+            text.addEventListener('click', () => selectPrefix(prefix));
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = '×';
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deletePrefix(prefix);
+            });
+            
+            item.appendChild(text);
+            item.appendChild(deleteBtn);
+            prefixList.appendChild(item);
+        });
+    }
+
+    function generateFilename() {
+        if (!selectedPrefix) {
+            alert('请选择一个前缀！');
+            return;
+        }
+
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const hour = String(now.getHours()).padStart(2, '0');
+        const minute = String(now.getMinutes()).padStart(2, '0');
         
-        // 显示复制成功提示
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = '已复制！';
-        setTimeout(() => {
-            copyBtn.textContent = originalText;
-        }, 1500);
+        // 获取当前序号并递增
+        let counter = parseInt(counterInput.value) || 0;
+        counter++;
+        counterInput.value = counter;
+        saveCounter(counter);
+        
+        const timestamp = `${day}${hour}${minute}${counter}`;
+        const suffix = suffixInput.value.trim();
+        
+        const filename = suffix 
+            ? `${selectedPrefix}_${timestamp}.${suffix}`
+            : `${selectedPrefix}_${timestamp}`;
+        
+        filenameResultText.value = filename;
+    }
+
+    function getCounter() {
+        const saved = localStorage.getItem('filenameCounter');
+        return saved ? parseInt(saved) : 0;
+    }
+
+    function saveCounter(counter) {
+        localStorage.setItem('filenameCounter', counter.toString());
+    }
+
+    function copyFilename() {
+        if (!filenameResultText.value) {
+            alert('没有内容可复制！');
+            return;
+        }
+
+        filenameResultText.select();
+        navigator.clipboard.writeText(filenameResultText.value).then(() => {
+            const originalText = copyFilenameBtn.textContent;
+            copyFilenameBtn.textContent = '已复制！';
+            setTimeout(() => {
+                copyFilenameBtn.textContent = originalText;
+            }, 1500);
+        }).catch(() => {
+            document.execCommand('copy');
+            const originalText = copyFilenameBtn.textContent;
+            copyFilenameBtn.textContent = '已复制！';
+            setTimeout(() => {
+                copyFilenameBtn.textContent = originalText;
+            }, 1500);
+        });
+    }
+
+    function saveFilenameConfig() {
+        const config = {
+            prefixes: prefixes,
+            selectedPrefix: selectedPrefix,
+            suffix: suffixInput.value.trim()
+        };
+        localStorage.setItem('filenameConfig', JSON.stringify(config));
+    }
+
+    function loadFilenameConfig() {
+        const savedConfig = localStorage.getItem('filenameConfig');
+        if (savedConfig) {
+            try {
+                const config = JSON.parse(savedConfig);
+                prefixes = config.prefixes || [];
+                selectedPrefix = config.selectedPrefix || null;
+                if (config.suffix) {
+                    suffixInput.value = config.suffix;
+                }
+                renderPrefixList();
+            } catch (e) {
+                console.error('加载文件名配置失败', e);
+            }
+        }
+        
+        // 加载序号
+        const counter = getCounter();
+        counterInput.value = counter;
     }
 });
