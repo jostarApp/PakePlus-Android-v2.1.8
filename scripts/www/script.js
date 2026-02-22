@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab');
     const tabContents = document.querySelectorAll('.tab-content');
 
+    const prefixManagerFloat = document.getElementById('prefixManagerFloat');
+    const prefixHideBtn = document.getElementById('prefixHideBtn');
+    const prefixShowBtn = document.getElementById('prefixShowBtn');
+
     tabs.forEach(tab => {
         tab.addEventListener('click', function() {
             const tabName = this.dataset.tab;
@@ -13,7 +17,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             this.classList.add('active');
             document.getElementById(tabName + '-tab').classList.add('active');
+            if (tabName === 'filename') {
+                prefixShowBtn.style.display = prefixManagerFloat.classList.contains('hidden') ? '' : 'none';
+            } else {
+                prefixShowBtn.style.display = 'none';
+            }
         });
+    });
+
+    prefixHideBtn.addEventListener('click', function() {
+        prefixManagerFloat.classList.add('hidden');
+        prefixShowBtn.style.display = '';
+    });
+    prefixShowBtn.addEventListener('click', function() {
+        prefixManagerFloat.classList.remove('hidden');
+        prefixShowBtn.style.display = 'none';
     });
 
     // ===== 随机字符串生成器 =====
