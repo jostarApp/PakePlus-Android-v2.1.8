@@ -14,7 +14,7 @@
         
         <div class="tabs">
             <button class="tab active" data-tab="random">随机字符串</button>
-            <button class="tab" data-tab="filename">文件名生成器</button>
+            <button class="tab" data-tab="filename">文件名生成</button>
         </div>
 
         <main>
@@ -50,14 +50,20 @@
 
             <!-- 文件名生成器 -->
             <div id="filename-tab" class="tab-content">
-                <div class="section">
-                    <h3>前缀管理：</h3>
+                <div class="section prefix-manager-float" id="prefixManagerFloat">
+                    <div class="prefix-manager-header">
+                        <h3>前缀管理</h3>
+                        <button type="button" class="prefix-hide-btn" id="prefixHideBtn" title="隐藏">−</button>
+                    </div>
                     <div class="prefix-input-group">
                         <input type="text" id="prefixInput" placeholder="输入前缀名称">
                         <button id="addPrefixBtn">添加</button>
                     </div>
-                    <div class="prefix-list" id="prefixList"></div>
+                    <div class="prefix-list-scroll">
+                        <div class="prefix-list" id="prefixList"></div>
+                    </div>
                 </div>
+                <button type="button" class="prefix-show-btn" id="prefixShowBtn" title="显示前缀管理" style="display:none">前缀</button>
 
                 <div class="section">
                     <h3>文件后缀：</h3>
