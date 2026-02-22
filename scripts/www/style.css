@@ -165,6 +165,73 @@ button:active {
     background: #f9f9f9;
 }
 
+/* 前缀管理悬浮，不占用文档流空间 */
+.prefix-manager-float.hidden {
+    display: none !important;
+}
+
+.prefix-manager-float {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    max-width: 280px;
+}
+
+.prefix-manager-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.prefix-manager-header h3 {
+    margin: 0;
+    flex: 1;
+}
+
+.prefix-hide-btn {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    color: #666;
+}
+
+.prefix-hide-btn:hover {
+    background: #ddd;
+    color: #333;
+}
+
+.prefix-show-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 14px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 99;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+}
+
+.prefix-show-btn:hover {
+    background: #5568d3;
+}
+
 .prefix-manager {
     margin-bottom: 20px;
 }
@@ -197,10 +264,20 @@ button:active {
     background: #5568d3;
 }
 
-.prefix-list {
+.prefix-list-scroll {
+    max-height: 140px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.prefix-manager-float .prefix-list {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+.prefix-list {
     margin-bottom: 15px;
 }
 
